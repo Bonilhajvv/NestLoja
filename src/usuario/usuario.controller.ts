@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { UsuarioRepository } from "./usuario.repository";
-import { AtualizaUsuarioDTO} from "./dto/AtualizaUsuario.dto";
-import {CriarUsuarioDTO} from "./dto/criaUsuario.dto"
+import { AtualizaUsuarioDTO } from "./dto/AtualizaUsuario.dto";
+import { CriarUsuarioDTO } from "./dto/criaUsuario.dto"
 import { UsuarioEntity } from "./usuario.entity";
 import { v4 as uuid } from 'uuid'
 import { ListaUsuarioDto } from "./dto/ListaUsuario.dto";
@@ -36,10 +36,18 @@ export class UsuarioController {
 
     @Put('/:id')
     async atualizaUsuario(@Param('id') id: string, @Body() novosDados: AtualizaUsuarioDTO) {
-       const usuarioAtualizado = await this.usuarioRepository.atualiza(id, novosDados);
-        return{
+        const usuarioAtualizado = await this.usuarioRepository.atualiza(id, novosDados);
+        return {
             usuario: usuarioAtualizado,
             message: 'usuario atualiazdo com sucesso',
+        }
+    }
+    @Delete('/:id')
+    async removeusuaraio(@Param('id') id: string) {
+        const usuarioRemovido = await this.usuarioRepository.remove(id);
+        return{
+            usuario: usuarioRemovido,
+            message: 'usuario removido'
         }
     }
 }
